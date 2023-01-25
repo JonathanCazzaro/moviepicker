@@ -21,12 +21,7 @@ export class MoviePicker implements Services.MoviePicker {
 
       await this.repo.put(movieTitle);
     } catch (error) {
-      if (
-        error instanceof EmptyMovieTitleError ||
-        error instanceof MoviePickAlreadyExistError
-      ) {
-        return error;
-      }
+      console.error(error);
     }
   }
 }

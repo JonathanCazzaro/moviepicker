@@ -1,5 +1,3 @@
-import { EmptyMovieTitleError } from "../errors/EmptyMovieTitleError";
-import { MoviePickAlreadyExistError } from "../errors/MoviePickAlreadyExistError";
 
 export namespace Services {
   export interface MoviePickRepo {
@@ -9,8 +7,29 @@ export namespace Services {
   }
 
   export interface MoviePicker {
-    pick: (
-      movieTitle: string
-    ) => Promise<void | EmptyMovieTitleError | MoviePickAlreadyExistError>;
+    pick: (movieTitle: string) => Promise<void>;
   }
+
+  export interface OmdbApi {
+    searchMovies: (terms: string) => Promise<OmdbApiListResponse | undefined>;
+    getMovieById: (id: string) => Promise<Movie | void>;
+  }
+
+  export type OmdbApiListResponse = {
+    Response: boolean;
+    Search?: MovieSearchResult[];
+    totalResults: number;
+  };
+
+  export interface MovieSearchResult {
+    imdbID: string;
+    Title: string;
+    Year: string;
+    Poster: string;
+  }
+
+  export type Movie = MovieSearchResult & {
+    Plot: string;
+    Actors: string;
+  };
 }
