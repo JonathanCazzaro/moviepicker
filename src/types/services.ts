@@ -1,4 +1,3 @@
-
 export namespace Services {
   export interface MoviePickRepo {
     getByFirstLetter: (firstLetter: string) => Promise<string | null>;
