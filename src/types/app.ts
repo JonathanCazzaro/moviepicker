@@ -1,4 +1,4 @@
-export namespace Services {
+export namespace App {
   export interface MoviePickRepo {
     getByFirstLetter: (firstLetter: string) => Promise<string | null>;
     getAll: () => Promise<string[]>;
@@ -31,4 +31,9 @@ export namespace Services {
     Plot: string;
     Actors: string;
   };
+
+  export enum Error {
+    EMPTY_MOVIE_TITLE = "EmptyMovieTitleError",
+    MOVIE_PICK_ALREADY_EXISTS = "MoviePickAlreadyExistsError",
+  }
 }

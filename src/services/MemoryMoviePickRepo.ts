@@ -1,6 +1,6 @@
-import { Services } from "../types/services";
+import { App } from "../types/app";
 
-export class MemoryMoviePickRepo implements Services.MoviePickRepo {
+export class MemoryMoviePickRepo implements App.MoviePickRepo {
   private readonly byFirstLetter = new Map<string, string>();
 
   constructor() {

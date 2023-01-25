@@ -1,18 +1,18 @@
 import { array, bool, number, object, SchemaOf } from "yup";
-import { Services } from "../types/services";
+import { App } from "../types/app";
 
 interface OmdbApiConstructor {
   baseUrl: string;
   apiKey: string;
-  movieCardValidationSchema: SchemaOf<Services.Movie>;
-  movieListItemValidationSchema: SchemaOf<Services.MovieSearchResult>;
+  movieCardValidationSchema: SchemaOf<App.Movie>;
+  movieListItemValidationSchema: SchemaOf<App.MovieSearchResult>;
 }
 
-export class OmdbApi implements Services.OmdbApi {
+export class OmdbApi implements App.OmdbApi {
   private readonly baseUrl: string;
   private readonly apiKey: string;
-  private readonly movieValidationSchema: SchemaOf<Services.Movie>;
-  private readonly moviesListValidationSchema: SchemaOf<Services.OmdbApiListResponse>;
+  private readonly movieValidationSchema: SchemaOf<App.Movie>;
+  private readonly moviesListValidationSchema: SchemaOf<App.OmdbApiListResponse>;
 
   constructor({
     apiKey,
@@ -25,7 +25,7 @@ export class OmdbApi implements Services.OmdbApi {
     this.movieValidationSchema = movieCardValidationSchema;
     this.moviesListValidationSchema = object({
       Response: bool()
-        .transform((value) => Boolean(value))
+        .transform((value) => value === "true")
         .required(),
       totalResults: number()
         .transform((value) => Number(value))

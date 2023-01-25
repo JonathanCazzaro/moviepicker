@@ -1,14 +1,14 @@
-import { Services } from "../types/services";
+import { App } from "../types/app";
 import { MoviePicker } from "../services/MoviePicker";
 import { MemoryMoviePickRepo } from "../services/MemoryMoviePickRepo";
 
 import { EmptyMovieTitleError } from "../errors/EmptyMovieTitleError";
-import { MoviePickAlreadyExistError } from "../errors/MoviePickAlreadyExistError";
+import { MoviePickAlreadyExistsError } from "../errors/MoviePickAlreadyExistError";
 
 //------------------------------------------------------------------------------
 describe("MoviePicker", () => {
-  let moviePicker: Services.MoviePicker;
-  let moviePickRepo: Services.MoviePickRepo;
+  let moviePicker: App.MoviePicker;
+  let moviePickRepo: App.MoviePickRepo;
 
   beforeEach(async () => {
     moviePickRepo = new MemoryMoviePickRepo();
@@ -43,15 +43,15 @@ describe("MoviePicker", () => {
 
       await expect(async () => {
         await moviePicker.pick(title);
-      }).rejects.toThrow(MoviePickAlreadyExistError);
+      }).rejects.toThrow(MoviePickAlreadyExistsError);
 
       await expect(async () => {
         await moviePicker.pick("Barton Fink");
-      }).rejects.toThrow(MoviePickAlreadyExistError);
+      }).rejects.toThrow(MoviePickAlreadyExistsError);
 
       await expect(async () => {
         await moviePicker.pick("batman");
-      }).rejects.toThrow(MoviePickAlreadyExistError);
+      }).rejects.toThrow(MoviePickAlreadyExistsError);
     }
   );
   //----------------------------------------------------------------------------

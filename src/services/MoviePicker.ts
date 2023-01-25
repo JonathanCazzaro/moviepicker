@@ -1,11 +1,11 @@
 import { EmptyMovieTitleError } from "../errors/EmptyMovieTitleError";
-import { MoviePickAlreadyExistError } from "../errors/MoviePickAlreadyExistError";
-import { Services } from "../types/services";
+import { MoviePickAlreadyExistsError } from "../errors/MoviePickAlreadyExistError";
+import { App } from "../types/app";
 
-export class MoviePicker implements Services.MoviePicker {
-  private readonly repo: Services.MoviePickRepo;
+export class MoviePicker implements App.MoviePicker {
+  private readonly repo: App.MoviePickRepo;
 
-  constructor(repo: Services.MoviePickRepo) {
+  constructor(repo: App.MoviePickRepo) {
     this.repo = repo;
   }
 
@@ -17,7 +17,7 @@ export class MoviePicker implements Services.MoviePicker {
         movieTitle.charAt(0)
       );
       if (existingMoviePick)
-        return Promise.reject(new MoviePickAlreadyExistError());
+        return Promise.reject(new MoviePickAlreadyExistsError());
 
       await this.repo.put(movieTitle);
     } catch (error) {
