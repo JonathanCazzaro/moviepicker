@@ -1,14 +1,14 @@
-import { App } from "../types/app";
-import { MoviePicker } from "../services/MoviePicker";
-import { MemoryMoviePickRepo } from "../services/MemoryMoviePickRepo";
+import { AppTypes } from "../types/app";
+import { MoviePicker } from "../services/classes/MoviePicker";
+import { MemoryMoviePickRepo } from "../services/classes/MemoryMoviePickRepo";
 
 import { EmptyMovieTitleError } from "../errors/EmptyMovieTitleError";
 import { MoviePickAlreadyExistsError } from "../errors/MoviePickAlreadyExistError";
 
 //------------------------------------------------------------------------------
 describe("MoviePicker", () => {
-  let moviePicker: App.MoviePicker;
-  let moviePickRepo: App.MoviePickRepo;
+  let moviePicker: AppTypes.MoviePicker;
+  let moviePickRepo: AppTypes.MoviePickRepo;
 
   beforeEach(async () => {
     moviePickRepo = new MemoryMoviePickRepo();

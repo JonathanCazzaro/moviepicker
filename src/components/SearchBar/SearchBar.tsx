@@ -7,17 +7,28 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
+import { useTypedDispatch } from "../../hooks/reduxHooks";
+import omdbApi from "../../services/omdbApi";
+import { setMovies } from "../../store/slices/dataSlice";
+import { setError } from "../../store/slices/interfaceSlice";
+import { AppTypes } from "../../types/app";
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState("");
+  const dispatch = useTypedDispatch();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(search);
+    const data = await omdbApi.searchMovies(search);
+
+    if (data?.Error) {
+      dispatch(setError(AppTypes.Error.EMPTY_API_RESPONSE));
+      dispatch(setMovies([]));
+    } else if (data?.Search) dispatch(setMovies(data.Search));
   };
 
   return (
@@ -25,7 +36,7 @@ const SearchBar: React.FC = () => {
       <FormControl fullWidth>
         <TextField
           required
-          placeholder="Tapez le nom d'un film..."
+          placeholder="Tape le nom d'un film..."
           value={search}
           onChange={handleChange}
           size="small"

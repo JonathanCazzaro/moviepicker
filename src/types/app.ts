@@ -1,4 +1,4 @@
-export namespace App {
+export namespace AppTypes {
   export interface MoviePickRepo {
     getByFirstLetter: (firstLetter: string) => Promise<string | null>;
     getAll: () => Promise<string[]>;
@@ -17,23 +17,27 @@ export namespace App {
   export type OmdbApiListResponse = {
     Response: boolean;
     Search?: MovieSearchResult[];
-    totalResults: number;
+    totalResults?: number;
+    Error?: string;
   };
 
   export interface MovieSearchResult {
     imdbID: string;
     Title: string;
-    Year: string;
     Poster: string;
   }
 
   export type Movie = MovieSearchResult & {
+    Year: string;
     Plot: string;
     Actors: string;
   };
 
   export enum Error {
     EMPTY_MOVIE_TITLE = "EmptyMovieTitleError",
+    EMPTY_API_RESPONSE = "EmptyApiResponse",
     MOVIE_PICK_ALREADY_EXISTS = "MoviePickAlreadyExistsError",
+    VALIDATION_ERROR = "ValidationError",
+    GENERIC = "Generic",
   }
 }

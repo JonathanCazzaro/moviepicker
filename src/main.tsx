@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./store/store";
 
 import { CssBaseline } from "@mui/material";
@@ -12,10 +12,10 @@ import App from "./App";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
+      <ReduxProvider store={store}>
         <CssBaseline />
         <App />
-      </Provider>
+      </ReduxProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { App } from "../../types/app";
+import { AppTypes } from "../../types/app";
 
 interface InterfaceSliceState {
   isLoading: boolean;
-  error: App.Error | null;
+  error: AppTypes.Error | null;
 }
 
 const initialState: InterfaceSliceState = {
@@ -18,11 +18,11 @@ export const interfaceSlice = createSlice({
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
-    setError: (state, { payload }: PayloadAction<App.Error>) => {
+    setError: (state, { payload }: PayloadAction<AppTypes.Error>) => {
       state.error = payload;
     },
     clearError: (state) => {
-      state.error = null;
+      if (state.error) state.error = null;
     },
   },
 });

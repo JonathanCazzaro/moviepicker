@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { App } from "../../types/app";
+import { AppTypes } from "../../types/app";
 
 interface DataSliceState {
-  movies: App.MovieSearchResult[];
-  currentMovie: App.Movie | null;
+  movies: AppTypes.MovieSearchResult[];
+  currentMovie: AppTypes.Movie | null;
 }
 
 const initialState: DataSliceState = {
@@ -15,10 +15,10 @@ export const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
-    setMovies: (state, { payload }: PayloadAction<App.MovieSearchResult[]>) => {
+    setMovies: (state, { payload }: PayloadAction<AppTypes.MovieSearchResult[]>) => {
       state.movies = payload;
     },
-    setCurrentMovie: (state, { payload }: PayloadAction<App.Movie>) => {
+    setCurrentMovie: (state, { payload }: PayloadAction<AppTypes.Movie>) => {
       state.currentMovie = payload;
     },
     clearCurrentMovie: (state) => {

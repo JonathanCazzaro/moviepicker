@@ -1,18 +1,40 @@
-import { array, bool, number, object, SchemaOf } from "yup";
-import { App } from "../types/app";
+import {
+  array,
+  bool,
+  number,
+  object,
+  SchemaOf,
+  string,
+  ValidationError,
+} from "yup";
+import { AppTypes } from "../../types/app";
+import { store } from "../../store/store";
+import { clearError, setError } from "../../store/slices/interfaceSlice";
 
 interface OmdbApiConstructor {
   baseUrl: string;
   apiKey: string;
-  movieCardValidationSchema: SchemaOf<App.Movie>;
-  movieListItemValidationSchema: SchemaOf<App.MovieSearchResult>;
+  movieCardValidationSchema: SchemaOf<AppTypes.Movie>;
+  movieListItemValidationSchema: SchemaOf<AppTypes.MovieSearchResult>;
 }
 
-export class OmdbApi implements App.OmdbApi {
+const handleError = (error: unknown): void => {
+  console.error(error);
+  switch (error) {
+    case error instanceof ValidationError:
+      store.dispatch(setError(AppTypes.Error.VALIDATION_ERROR));
+      break;
+    default:
+      store.dispatch(setError(AppTypes.Error.GENERIC));
+      break;
+  }
+};
+
+export class OmdbApi implements AppTypes.OmdbApi {
   private readonly baseUrl: string;
   private readonly apiKey: string;
-  private readonly movieValidationSchema: SchemaOf<App.Movie>;
-  private readonly moviesListValidationSchema: SchemaOf<App.OmdbApiListResponse>;
+  private readonly movieValidationSchema: SchemaOf<AppTypes.Movie>;
+  private readonly moviesListValidationSchema: SchemaOf<AppTypes.OmdbApiListResponse>;
 
   constructor({
     apiKey,
@@ -29,13 +51,15 @@ export class OmdbApi implements App.OmdbApi {
         .required(),
       totalResults: number()
         .transform((value) => Number(value))
-        .required(),
-      Search: array().of(movieListItemValidationSchema.required()).required(),
+        .notRequired(),
+      Search: array(movieListItemValidationSchema.notRequired()).notRequired(),
+      Error: string().notRequired(),
     });
   }
 
   async searchMovies(terms: string) {
     try {
+      store.dispatch(clearError());
       const response = await fetch(
         `${this.baseUrl}/?apikey=${this.apiKey}&s=${terms}`
       );
@@ -44,12 +68,13 @@ export class OmdbApi implements App.OmdbApi {
         { stripUnknown: true }
       );
     } catch (error) {
-      console.error(error);
+      handleError(error);
     }
   }
 
   async getMovieById(id: string) {
     try {
+      store.dispatch(clearError());
       const response = await fetch(
         `${this.baseUrl}/?apikey=${this.apiKey}&i=${id}`
       );
@@ -57,7 +82,7 @@ export class OmdbApi implements App.OmdbApi {
         stripUnknown: true,
       });
     } catch (error) {
-      console.error(error);
+      handleError(error);
     }
   }
 }

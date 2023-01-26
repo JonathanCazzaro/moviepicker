@@ -1,4 +1,4 @@
-import { App } from "../types/app";
+import { App } from "../../types/app";
 
 export class MemoryMoviePickRepo implements App.MoviePickRepo {
   private readonly byFirstLetter = new Map<string, string>();
