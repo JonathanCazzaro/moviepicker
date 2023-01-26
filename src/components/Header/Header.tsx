@@ -30,9 +30,9 @@ const Header: React.FC = () => {
         MoviePicker
       </Typography>
       <SearchBar />
-      <Button variant="contained" color="secondary" sx={{ gap: ".5rem", margin: "0 0 0 auto" }}>
+      <Button variant="outlined" color="secondary" sx={{ gap: ".5rem", margin: "0 0 0 auto" }}>
         <FavoriteIcon />
-        Mes favoris
+        My picks
       </Button>
     </Box>
   );

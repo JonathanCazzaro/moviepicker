@@ -1,40 +1,23 @@
 import { EmptyMovieTitleError } from "../../errors/EmptyMovieTitleError";
 import { MoviePickAlreadyExistsError } from "../../errors/MoviePickAlreadyExistError";
-import { App } from "../../types/app";
-import { store } from "../../store/store";
-import { setError } from "../../store/slices/interfaceSlice";
+import { AppTypes } from "../../types/app";
 
-export class MoviePicker implements App.MoviePicker {
-  private readonly repo: App.MoviePickRepo;
+export class MoviePicker implements AppTypes.MoviePicker {
+  private readonly repo: AppTypes.MoviePickRepo;
 
-  constructor(repo: App.MoviePickRepo) {
+  constructor(repo: AppTypes.MoviePickRepo) {
     this.repo = repo;
   }
 
   async pick(movieTitle: string) {
-    try {
-      if (!movieTitle) return Promise.reject(new EmptyMovieTitleError());
+    if (!movieTitle) return Promise.reject(new EmptyMovieTitleError());
 
-      const existingMoviePick = await this.repo.getByFirstLetter(
-        movieTitle.charAt(0)
-      );
-      if (existingMoviePick)
-        return Promise.reject(new MoviePickAlreadyExistsError());
+    const existingMoviePick = await this.repo.getByFirstLetter(
+      movieTitle.charAt(0)
+    );
+    if (existingMoviePick)
+      return Promise.reject(new MoviePickAlreadyExistsError());
 
-      await this.repo.put(movieTitle);
-    } catch (error) {
-      console.error(error);
-      switch (error) {
-        case error instanceof EmptyMovieTitleError:
-          store.dispatch(setError(App.Error.EMPTY_MOVIE_TITLE));
-          break;
-        case error instanceof MoviePickAlreadyExistsError:
-          store.dispatch(setError(App.Error.MOVIE_PICK_ALREADY_EXISTS));
-          break;
-        default:
-          store.dispatch(setError(App.Error.GENERIC));
-          break;
-      }
-    }
+    await this.repo.put(movieTitle);
   }
 }

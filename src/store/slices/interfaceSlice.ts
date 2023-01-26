@@ -1,14 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppTypes } from "../../types/app";
 
 interface InterfaceSliceState {
   isLoading: boolean;
-  error: AppTypes.Error | null;
+  movieDialogOpen: boolean;
+  success: boolean;
+  successMessage: string;
+  error: boolean;
+  errorMessage: string;
 }
 
 const initialState: InterfaceSliceState = {
   isLoading: false,
-  error: null,
+  movieDialogOpen: false,
+  success: false,
+  successMessage: "",
+  error: false,
+  errorMessage: "",
 };
 
 export const interfaceSlice = createSlice({
@@ -18,15 +25,31 @@ export const interfaceSlice = createSlice({
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
-    setError: (state, { payload }: PayloadAction<AppTypes.Error>) => {
-      state.error = payload;
+    setMovieDialogOpen: (state, { payload }: PayloadAction<boolean>) => {
+      state.movieDialogOpen = payload;
     },
-    clearError: (state) => {
-      if (state.error) state.error = null;
+    setSuccess: (state, { payload }: PayloadAction<string | false>) => {
+      if (typeof payload === "string") {
+        state.success = true;
+        state.successMessage = payload;
+      } else {
+        state.success = payload;
+        state.successMessage = "";
+      }
+    },
+    setError: (state, { payload }: PayloadAction<string | false>) => {
+      if (typeof payload === "string") {
+        state.error = true;
+        state.errorMessage = payload;
+      } else {
+        state.error = payload;
+        state.errorMessage = "";
+      }
     },
   },
 });
 
-export const { clearError, setError, setLoading } = interfaceSlice.actions;
+export const { setError, setLoading, setSuccess, setMovieDialogOpen } =
+  interfaceSlice.actions;
 
 export default interfaceSlice.reducer;

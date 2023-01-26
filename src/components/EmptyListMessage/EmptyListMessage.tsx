@@ -1,13 +1,9 @@
 import { Typography } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { borderRadius } from "@mui/system";
 
-const EmptyListMessage: React.FC<{
-  hasMovies: boolean;
-  isApiResponseEmpty: boolean;
-}> = ({ hasMovies, isApiResponseEmpty }) => {
-  return !hasMovies || isApiResponseEmpty ? (
+const EmptyListMessage: React.FC<{ hasMovies: boolean }> = ({ hasMovies }) => {
+  return !hasMovies ? (
     <Typography
       sx={{
         width: "fit-content",
@@ -22,20 +18,11 @@ const EmptyListMessage: React.FC<{
         color: "primary.main",
         backgroundColor: "secondary.dark",
         borderRadius: ".5rem",
-        boxShadow: "0 .2rem .75rem .1rem rgba(0, 0, 0, .1)"
+        boxShadow: "0 .2rem .75rem .1rem rgba(0, 0, 0, .1)",
       }}
     >
-      {isApiResponseEmpty ? (
-        <>
-          Aucun film ne correspond à ces termes de recherche !<br />
-          N'hésite pas à modifier et à recommencer.
-        </>
-      ) : (
-        <>
-          Entre le nom d'un film dans la barre de recherche et clique sur le
-          bouton <SearchIcon />
-        </>
-      )}
+      Enter a movie title in the searchbar and click <SearchIcon /> to see the
+      results !
     </Typography>
   ) : null;
 };

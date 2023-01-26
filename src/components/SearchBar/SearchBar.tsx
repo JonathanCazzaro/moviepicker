@@ -10,25 +10,29 @@ import React, { useState } from "react";
 import { useTypedDispatch } from "../../hooks/reduxHooks";
 import omdbApi from "../../services/omdbApi";
 import { setMovies } from "../../store/slices/dataSlice";
-import { setError } from "../../store/slices/interfaceSlice";
-import { AppTypes } from "../../types/app";
+import { setLoading } from "../../store/slices/interfaceSlice";
+import { useErrorHandler } from "../../hooks/useErrorHandler";
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState("");
   const dispatch = useTypedDispatch();
+  const handleError = useErrorHandler();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = await omdbApi.searchMovies(search);
-
-    if (data?.Error) {
-      dispatch(setError(AppTypes.Error.EMPTY_API_RESPONSE));
-      dispatch(setMovies([]));
-    } else if (data?.Search) dispatch(setMovies(data.Search));
+    try {
+      event.preventDefault();
+      dispatch(setLoading(true));
+      const data = await omdbApi.searchMovies(search);
+      dispatch(setMovies(data.Search || []));
+    } catch (error) {
+      handleError(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (
@@ -36,7 +40,7 @@ const SearchBar: React.FC = () => {
       <FormControl fullWidth>
         <TextField
           required
-          placeholder="Tape le nom d'un film..."
+          placeholder="Enter the title of a movie..."
           value={search}
           onChange={handleChange}
           size="small"

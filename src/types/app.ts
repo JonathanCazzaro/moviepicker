@@ -17,25 +17,24 @@ export namespace AppTypes {
   export type OmdbApiListResponse = {
     Response: boolean;
     Search?: MovieSearchResult[];
-    totalResults?: number;
-    Error?: string;
+    totalResults: number;
   };
 
   export interface MovieSearchResult {
     imdbID: string;
     Title: string;
     Poster: string;
+    Year: string;
   }
 
   export type Movie = MovieSearchResult & {
-    Year: string;
     Plot: string;
     Actors: string;
   };
 
   export enum Error {
     EMPTY_MOVIE_TITLE = "EmptyMovieTitleError",
-    EMPTY_API_RESPONSE = "EmptyApiResponse",
+    API_CONNECTION = "ApiConnectionError",
     MOVIE_PICK_ALREADY_EXISTS = "MoviePickAlreadyExistsError",
     VALIDATION_ERROR = "ValidationError",
     GENERIC = "Generic",

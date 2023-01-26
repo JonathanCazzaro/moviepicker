@@ -16,6 +16,7 @@ const omdbApi = new OmdbApi({
     Title: string().required(),
     imdbID: string().required(),
     Poster: string().required(),
+    Year: string().required(),
   }),
 });
 

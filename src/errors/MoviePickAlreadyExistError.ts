@@ -1,8 +1,10 @@
-import { AppTypes } from "../types/app";
-
 export class MoviePickAlreadyExistsError extends Error {
   constructor(message?: string) {
-    super(message || "This movie has already been picked once.");
-    this.name = AppTypes.Error.MOVIE_PICK_ALREADY_EXISTS;
+    super(
+      message ||
+        "You cannot pick more than one movie starting with this letter."
+    );
+    Object.setPrototypeOf(this, MoviePickAlreadyExistsError.prototype);
+    this.name = "MoviePickAlreadyExistsError";
   }
 }

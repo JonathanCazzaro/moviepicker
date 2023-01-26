@@ -1,15 +1,6 @@
-import {
-  array,
-  bool,
-  number,
-  object,
-  SchemaOf,
-  string,
-  ValidationError,
-} from "yup";
+import { array, bool, number, object, SchemaOf } from "yup";
 import { AppTypes } from "../../types/app";
-import { store } from "../../store/store";
-import { clearError, setError } from "../../store/slices/interfaceSlice";
+import { ApiConnectionError } from "../../errors/ApiConnectionError";
 
 interface OmdbApiConstructor {
   baseUrl: string;
@@ -17,18 +8,6 @@ interface OmdbApiConstructor {
   movieCardValidationSchema: SchemaOf<AppTypes.Movie>;
   movieListItemValidationSchema: SchemaOf<AppTypes.MovieSearchResult>;
 }
-
-const handleError = (error: unknown): void => {
-  console.error(error);
-  switch (error) {
-    case error instanceof ValidationError:
-      store.dispatch(setError(AppTypes.Error.VALIDATION_ERROR));
-      break;
-    default:
-      store.dispatch(setError(AppTypes.Error.GENERIC));
-      break;
-  }
-};
 
 export class OmdbApi implements AppTypes.OmdbApi {
   private readonly baseUrl: string;
@@ -51,38 +30,46 @@ export class OmdbApi implements AppTypes.OmdbApi {
         .required(),
       totalResults: number()
         .transform((value) => Number(value))
-        .notRequired(),
-      Search: array(movieListItemValidationSchema.notRequired()).notRequired(),
-      Error: string().notRequired(),
+        .required(),
+      Search: array(movieListItemValidationSchema.required()).required(),
     });
   }
 
   async searchMovies(terms: string) {
     try {
-      store.dispatch(clearError());
       const response = await fetch(
         `${this.baseUrl}/?apikey=${this.apiKey}&s=${terms}`
       );
-      return await this.moviesListValidationSchema.validate(
+
+      if (response.status !== 200)
+        return Promise.reject(new ApiConnectionError());
+
+      const data = await this.moviesListValidationSchema.validate(
         await response.json(),
         { stripUnknown: true }
       );
+      return data;
     } catch (error) {
-      handleError(error);
+      return Promise.reject(error);
     }
   }
 
   async getMovieById(id: string) {
     try {
-      store.dispatch(clearError());
       const response = await fetch(
         `${this.baseUrl}/?apikey=${this.apiKey}&i=${id}`
       );
-      return await this.movieValidationSchema.validate(await response.json(), {
-        stripUnknown: true,
-      });
+
+      if (response.status !== 200)
+        return Promise.reject(new ApiConnectionError());
+
+      const data = await this.movieValidationSchema.validate(
+        await response.json(),
+        { stripUnknown: true }
+      );
+      return data;
     } catch (error) {
-      handleError(error);
+      return Promise.reject(error);
     }
   }
 }
