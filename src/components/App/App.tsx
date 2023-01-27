@@ -1,11 +1,11 @@
 import { Box, Container } from "@mui/material";
 import EmptyListMessage from "../EmptyListMessage/EmptyListMessage";
 import Header from "../Header/Header";
-import MovieDialog from "../MovieDialog/MovieDialog";
+import MovieDialog from "../Dialogs/MovieDialog/MovieDialog";
 import MoviesList from "../MoviesList/MoviesList";
 import Notification from "../Notification/Notification";
 import { useTypedSelector } from "../../hooks/reduxHooks";
-import MyPicksDialog from "../MyPicksDialog/MyPicksDialog";
+import MyPicksDialog from "../Dialogs/MyPicksDialog/MyPicksDialog";
 
 const App: React.FC = () => {
   const { movies } = useTypedSelector((state) => state.data);

@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import MovieIcon from "@mui/icons-material/Movie";
 import SearchBar from "../SearchBar/SearchBar";

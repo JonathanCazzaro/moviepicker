@@ -41,7 +41,7 @@ const MoviesListItem: React.FC<AppTypes.MovieSearchResult> = ({
       <Paper
         elevation={3}
         sx={{
-          height: "100%",
+          height: "21rem",
           display: "flex",
           padding: ".25rem",
           backgroundColor: "secondary.main",

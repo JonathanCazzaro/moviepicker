@@ -2,24 +2,15 @@ import {
   Chip,
   Dialog,
   DialogContent,
-  DialogTitle,
   List,
   ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useTypedDispatch, useTypedSelector } from "../../hooks/reduxHooks";
-import { movieRepo } from "../../services/moviePicker";
-import { setMyPicksDialogOpen } from "../../store/slices/interfaceSlice";
-import CommonMovieDialogTitle from "../MovieDialog/CommonDialogTitle";
-import MyPicksListItem from "./MyPicksListItem";
-
-const getPicks = async (letter: string) => {
-  const data = await movieRepo.getByFirstLetter(letter);
-  return data;
-};
+import { useTypedDispatch, useTypedSelector } from "../../../hooks/reduxHooks";
+import { movieRepo } from "../../../services/moviePicker";
+import { setMyPicksDialogOpen } from "../../../store/slices/interfaceSlice";
+import CommonMovieDialogTitle from "../CommonDialogTitle";
 
 const MyPicksDialog: React.FC = () => {
   const dispatch = useTypedDispatch();

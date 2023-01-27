@@ -1,15 +1,15 @@
 import { Button, Dialog, DialogActions } from "@mui/material";
 import React, { useEffect } from "react";
-import { useTypedDispatch, useTypedSelector } from "../../hooks/reduxHooks";
-import { clearCurrentMovie } from "../../store/slices/dataSlice";
-import { moviePicker } from "../../services/moviePicker";
-import { useErrorHandler } from "../../hooks/useErrorHandler";
+import { useTypedDispatch, useTypedSelector } from "../../../hooks/reduxHooks";
+import { clearCurrentMovie } from "../../../store/slices/dataSlice";
+import { moviePicker } from "../../../services/moviePicker";
+import { useErrorHandler } from "../../../hooks/useErrorHandler";
 import {
   setMovieDialogOpen,
   setNotification,
-} from "../../store/slices/interfaceSlice";
+} from "../../../store/slices/interfaceSlice";
 import MovieDialogBody from "./MovieDialogBody";
-import CommonMovieDialogTitle from "./CommonDialogTitle";
+import CommonMovieDialogTitle from "../CommonDialogTitle";
 
 const MovieDialog: React.FC = () => {
   const { currentMovie } = useTypedSelector((state) => state.data);

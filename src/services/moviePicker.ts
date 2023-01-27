@@ -1,7 +1,7 @@
-import { MemoryMoviePickRepo } from "./classes/MemoryMoviePickRepo";
+import { BrowserMoviePickRepo } from "./classes/BrowserMoviePickRepo";
 import { MoviePicker } from "./classes/MoviePicker";
 
-const movieRepo = new MemoryMoviePickRepo();
+const movieRepo = new BrowserMoviePickRepo();
 
 const moviePicker = new MoviePicker(movieRepo);
 

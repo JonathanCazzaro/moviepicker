@@ -50,7 +50,7 @@ export function useErrorHandler() {
         dispatch(
           setNotification({
             type: "error",
-            message: "An error occurred. Please refresh your browser.",
+            message: "An error occurred. Please check your connection and refresh your browser.",
           })
         );
         break;

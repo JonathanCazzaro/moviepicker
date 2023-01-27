@@ -24,10 +24,8 @@ export default createTheme({
           height: "100vh"
         },
         body: {
+          height: "100%",
           padding: "1rem 0 1rem 0"
-        },
-        "#root": {
-          height: "100%"
         }
       }
     }
