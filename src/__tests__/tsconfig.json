@@ -18,5 +18,5 @@
     "noImplicitAny": true,
     "types": ["jest", "node"]
   },
-  "include": ["**/*"]
+  "include": ["**/*", "../types/appTypes.d.ts"]
 }

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppTypes } from "../../types/app";
 
 interface DataSliceState {
   movies: AppTypes.MovieSearchResult[];

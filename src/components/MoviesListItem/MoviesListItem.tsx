@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Card,
   CardMedia,
   Chip,
   Grid,
@@ -15,7 +14,6 @@ import { useErrorHandler } from "../../hooks/useErrorHandler";
 import omdbApi from "../../services/omdbApi";
 import { setCurrentMovie } from "../../store/slices/dataSlice";
 import { setLoading } from "../../store/slices/interfaceSlice";
-import { AppTypes } from "../../types/app";
 
 const MoviesListItem: React.FC<AppTypes.MovieSearchResult> = ({
   Poster,
@@ -52,7 +50,15 @@ const MoviesListItem: React.FC<AppTypes.MovieSearchResult> = ({
         }}
       >
         <Button
-          sx={{ maxHeight: "21rem", overflow: "hidden", width: "100%", textTransform: "unset !important", fontWeight: "bold", borderRadius: '2rem' }}
+          sx={{
+            position: "relative",
+            maxHeight: "21rem",
+            overflow: "hidden",
+            width: "100%",
+            textTransform: "unset !important",
+            fontWeight: "bold",
+            borderRadius: "2rem",
+          }}
           onClick={handleClickMovie}
           title={Title.toString()}
         >

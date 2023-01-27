@@ -2,8 +2,8 @@ import { Typography } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-const EmptyListMessage: React.FC<{ hasMovies: boolean }> = ({ hasMovies }) => {
-  return !hasMovies ? (
+const EmptyListMessage: React.FC = () => {
+  return (
     <Typography
       sx={{
         width: "fit-content",
@@ -21,10 +21,10 @@ const EmptyListMessage: React.FC<{ hasMovies: boolean }> = ({ hasMovies }) => {
         boxShadow: "0 .2rem .75rem .1rem rgba(0, 0, 0, .1)",
       }}
     >
-      Enter a movie title in the searchbar and click <SearchIcon /> to see the
+      Enter a movie title in the searchbar and click the magnifying glass to see the
       results !
     </Typography>
-  ) : null;
+  );
 };
 
 export default EmptyListMessage;

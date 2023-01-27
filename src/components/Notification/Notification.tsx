@@ -1,10 +1,10 @@
 import { Alert, Snackbar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../hooks/reduxHooks";
-import { setError, setSuccess } from "../../store/slices/interfaceSlice";
+import { clearNotification } from "../../store/slices/interfaceSlice";
 
 const Notification: React.FC<{ duration?: number }> = ({ duration = 5000 }) => {
-  const { error, errorMessage, success, successMessage } = useTypedSelector(
+  const { notification } = useTypedSelector(
     (state) => state.interface
   );
   const [open, setOpen] = useState(false);
@@ -16,13 +16,12 @@ const Notification: React.FC<{ duration?: number }> = ({ duration = 5000 }) => {
   };
 
   const handleClearNotification = () => {
-    if (error) dispatch(setError(false));
-    else if (success) dispatch(setSuccess(false));
+    dispatch(clearNotification());
   };
 
   useEffect(() => {
-    if (error || success) setOpen(true);
-  }, [error, success]);
+    if (notification) setOpen(true);
+  }, [notification]);
 
   return (
     <Snackbar
@@ -33,11 +32,11 @@ const Notification: React.FC<{ duration?: number }> = ({ duration = 5000 }) => {
       TransitionProps={{ onExited: handleClearNotification }}
     >
       <Alert
-        severity={error ? "error" : "success"}
+        severity={notification?.type}
         onClose={handleClose}
         variant="filled"
       >
-        {errorMessage || successMessage}
+        {notification?.message}
       </Alert>
     </Snackbar>
   );

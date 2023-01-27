@@ -10,7 +10,7 @@ export default createTheme({
     secondary: {
       main: "#EEF0F2",
       contrastText: "#B63753",
-      dark: "#fff"
+      dark: "#fff",
     },
     text: {
       primary: "#141414",
@@ -18,6 +18,18 @@ export default createTheme({
     },
   },
   components: {
-
+    MuiCssBaseline: {
+      styleOverrides: {
+        html: {
+          height: "100vh"
+        },
+        body: {
+          padding: "1rem 0 1rem 0"
+        },
+        "#root": {
+          height: "100%"
+        }
+      }
+    }
   }
 });

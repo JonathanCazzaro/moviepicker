@@ -1,25 +1,15 @@
-import {
-  Box,
-  Button,
-  CardMedia,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button, Dialog, DialogActions } from "@mui/material";
+import React, { useEffect } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../hooks/reduxHooks";
 import { clearCurrentMovie } from "../../store/slices/dataSlice";
-import CloseIcon from "@mui/icons-material/Close";
-import moviePicker from "../../services/moviePicker";
+import { moviePicker } from "../../services/moviePicker";
 import { useErrorHandler } from "../../hooks/useErrorHandler";
 import {
   setMovieDialogOpen,
-  setSuccess,
+  setNotification,
 } from "../../store/slices/interfaceSlice";
-import { string } from "yup";
+import MovieDialogBody from "./MovieDialogBody";
+import CommonMovieDialogTitle from "./CommonDialogTitle";
 
 const MovieDialog: React.FC = () => {
   const { currentMovie } = useTypedSelector((state) => state.data);
@@ -40,7 +30,10 @@ const MovieDialog: React.FC = () => {
     try {
       if (currentMovie) await moviePicker.pick(currentMovie?.Title);
       dispatch(
-        setSuccess(`Successfully added ${currentMovie?.Title} to your picks !`)
+        setNotification({
+          type: "success",
+          message: `Successfully added ${currentMovie?.Title} to your picks !`,
+        })
       );
     } catch (error) {
       handleError(error);
@@ -51,72 +44,21 @@ const MovieDialog: React.FC = () => {
     if (currentMovie) dispatch(setMovieDialogOpen(true));
   }, [currentMovie]);
 
-  return (
+  return !!currentMovie ? (
     <Dialog
       open={movieDialogOpen}
       onClose={handleClose}
       TransitionProps={{ onExited: handleClearMovie }}
     >
-      <DialogTitle
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "1rem",
-          fontWeight: "bold",
-          color: "primary.main",
-        }}
-      >
-        {currentMovie?.Title}
-        <IconButton onClick={handleClose}>
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent dividers sx={{ display: "flex", gap: "1.5rem" }}>
-        {string().url().isValidSync(currentMovie?.Poster) && (
-          <CardMedia
-            component={"img"}
-            image={currentMovie?.Poster}
-            sx={{ width: "15rem", borderRadius: ".3rem" }}
-          />
-        )}
-        <Box>
-          <Typography gutterBottom>
-            <Typography
-              sx={{ fontWeight: "bold", color: "primary.main" }}
-              component={"span"}
-            >
-              Year :{" "}
-            </Typography>
-            {currentMovie?.Year}
-          </Typography>
-          <Typography gutterBottom>
-            <Typography
-              sx={{ fontWeight: "bold", color: "primary.main" }}
-              component={"span"}
-            >
-              Actors :{" "}
-            </Typography>
-            {currentMovie?.Actors}
-          </Typography>
-          <Typography gutterBottom>
-            <Typography
-              sx={{ fontWeight: "bold", color: "primary.main" }}
-              component={"span"}
-            >
-              Plot :{" "}
-            </Typography>
-            {currentMovie?.Plot}
-          </Typography>
-        </Box>
-      </DialogContent>
+      <CommonMovieDialogTitle handleClose={handleClose} title={currentMovie.Title} />
+      <MovieDialogBody {...currentMovie} />
       <DialogActions>
         <Button variant="contained" color="primary" onClick={handlePickMovie}>
           Pick Movie
         </Button>
       </DialogActions>
     </Dialog>
-  );
+  ) : null;
 };
 
 export default MovieDialog;

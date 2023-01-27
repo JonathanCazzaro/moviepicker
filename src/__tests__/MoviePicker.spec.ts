@@ -1,4 +1,3 @@
-import { AppTypes } from "../types/app";
 import { MoviePicker } from "../services/classes/MoviePicker";
 import { MemoryMoviePickRepo } from "../services/classes/MemoryMoviePickRepo";
 

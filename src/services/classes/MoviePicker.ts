@@ -1,6 +1,5 @@
 import { EmptyMovieTitleError } from "../../errors/EmptyMovieTitleError";
 import { MoviePickAlreadyExistsError } from "../../errors/MoviePickAlreadyExistError";
-import { AppTypes } from "../../types/app";
 
 export class MoviePicker implements AppTypes.MoviePicker {
   private readonly repo: AppTypes.MoviePickRepo;

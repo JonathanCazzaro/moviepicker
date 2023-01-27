@@ -2,7 +2,7 @@ import { ValidationError } from "yup";
 import { ApiConnectionError } from "../errors/ApiConnectionError";
 import { EmptyMovieTitleError } from "../errors/EmptyMovieTitleError";
 import { MoviePickAlreadyExistsError } from "../errors/MoviePickAlreadyExistError";
-import { setError } from "../store/slices/interfaceSlice";
+import { setNotification } from "../store/slices/interfaceSlice";
 import { useTypedDispatch } from "./reduxHooks";
 
 export function useErrorHandler() {
@@ -14,24 +14,45 @@ export function useErrorHandler() {
     switch (true) {
       case error instanceof MoviePickAlreadyExistsError:
         dispatch(
-          setError(
-            "You cannot pick more than one movie starting with this letter !"
-          )
+          setNotification({
+            type: "error",
+            message:
+              "You cannot pick more than one movie starting with this letter !",
+          })
         );
         break;
       case error instanceof EmptyMovieTitleError:
-        dispatch(setError("Movie title cannot be empty !"));
+        dispatch(
+          setNotification({
+            type: "error",
+            message: "Movie title cannot be empty !",
+          })
+        );
         break;
       case error instanceof ApiConnectionError:
-        dispatch(setError("Cannot get a proper response from server. Please try again later."));
+        dispatch(
+          setNotification({
+            type: "error",
+            message:
+              "Cannot get a proper response from server. Please try again later.",
+          })
+        );
         break;
       case error instanceof ValidationError:
         dispatch(
-          setError("No data has matched ! Modify your request and try again.")
+          setNotification({
+            type: "error",
+            message: "No data has matched ! Modify your request and try again.",
+          })
         );
         break;
       default:
-        dispatch(setError("An error occurred. Please refresh your browser."));
+        dispatch(
+          setNotification({
+            type: "error",
+            message: "An error occurred. Please refresh your browser.",
+          })
+        );
         break;
     }
   };

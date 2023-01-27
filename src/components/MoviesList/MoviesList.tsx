@@ -1,6 +1,5 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import { AppTypes } from "../../types/app";
 import MoviesListItem from "../MoviesListItem/MoviesListItem";
 
 const MoviesList: React.FC<{ movies: AppTypes.MovieSearchResult[] }> = ({

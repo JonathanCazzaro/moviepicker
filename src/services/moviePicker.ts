@@ -1,8 +1,8 @@
 import { MemoryMoviePickRepo } from "./classes/MemoryMoviePickRepo";
 import { MoviePicker } from "./classes/MoviePicker";
 
-const repo = new MemoryMoviePickRepo();
+const movieRepo = new MemoryMoviePickRepo();
 
-const moviePicker = new MoviePicker(repo);
+const moviePicker = new MoviePicker(movieRepo);
 
-export default moviePicker;
+export { moviePicker, movieRepo };

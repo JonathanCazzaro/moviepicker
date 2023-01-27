@@ -7,14 +7,16 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
-import { useTypedDispatch } from "../../hooks/reduxHooks";
+import { useTypedDispatch, useTypedSelector } from "../../hooks/reduxHooks";
 import omdbApi from "../../services/omdbApi";
 import { setMovies } from "../../store/slices/dataSlice";
 import { setLoading } from "../../store/slices/interfaceSlice";
 import { useErrorHandler } from "../../hooks/useErrorHandler";
+import LoadBar from "../LoadBar/LoadBar";
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState("");
+  const { isLoading } = useTypedSelector((state) => state.interface);
   const dispatch = useTypedDispatch();
   const handleError = useErrorHandler();
 
@@ -36,33 +38,40 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <Box component={"form"} onSubmit={handleSubmit}>
-      <FormControl fullWidth>
-        <TextField
-          required
-          placeholder="Enter the title of a movie..."
-          value={search}
-          onChange={handleChange}
-          size="small"
-          color="secondary"
-          InputProps={{
-            style: {
-              backgroundColor: "white",
-              borderRadius: "10rem",
-              paddingLeft: ".5rem",
-              width: "25rem",
-            },
-            endAdornment: (
-              <InputAdornment position="end">
+    <FormControl component={"form"} fullWidth onSubmit={handleSubmit}>
+      <TextField
+        required
+        placeholder="Enter the title of a movie..."
+        value={search}
+        onChange={handleChange}
+        size="small"
+        color="secondary"
+        InputProps={{
+          style: {
+            backgroundColor: "white",
+            borderRadius: "10rem",
+            paddingLeft: ".5rem",
+            maxWidth: "25rem",
+            width: "100%",
+          },
+          endAdornment: (
+            <InputAdornment position="end">
+              {isLoading ? (
+                <LoadBar
+                  disableShrink
+                  size={"1.5rem"}
+                  sx={{ display: "relative" }}
+                />
+              ) : (
                 <IconButton type="submit">
                   <SearchIcon />
                 </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </FormControl>
-    </Box>
+              )}
+            </InputAdornment>
+          ),
+        }}
+      />
+    </FormControl>
   );
 };
 

@@ -1,5 +1,4 @@
 import { array, bool, number, object, SchemaOf } from "yup";
-import { AppTypes } from "../../types/app";
 import { ApiConnectionError } from "../../errors/ApiConnectionError";
 
 interface OmdbApiConstructor {
