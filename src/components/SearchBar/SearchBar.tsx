@@ -6,16 +6,14 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
-import { useTypedDispatch, useTypedSelector } from "../../hooks/reduxHooks";
+import { useTypedDispatch } from "../../hooks/reduxHooks";
 import omdbApi from "../../services/omdbApi";
 import { setMovies } from "../../store/slices/dataSlice";
 import { setLoading } from "../../store/slices/interfaceSlice";
 import { useErrorHandler } from "../../hooks/useErrorHandler";
-import LoadBar from "../LoadBar/LoadBar";
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState("");
-  const { isLoading } = useTypedSelector((state) => state.interface);
   const dispatch = useTypedDispatch();
   const handleError = useErrorHandler();
 
@@ -55,17 +53,9 @@ const SearchBar: React.FC = () => {
           },
           endAdornment: (
             <InputAdornment position="end">
-              {isLoading ? (
-                <LoadBar
-                  disableShrink
-                  size={"1.5rem"}
-                  sx={{ display: "relative" }}
-                />
-              ) : (
-                <IconButton type="submit">
-                  <SearchIcon />
-                </IconButton>
-              )}
+              <IconButton type="submit">
+                <SearchIcon />
+              </IconButton>
             </InputAdornment>
           ),
         }}

@@ -6,6 +6,7 @@ import MoviesList from "../MoviesList/MoviesList";
 import Notification from "../Notification/Notification";
 import { useTypedSelector } from "../../hooks/reduxHooks";
 import MyPicksDialog from "../Dialogs/MyPicksDialog/MyPicksDialog";
+import LoadBar from "../LoadBar/LoadBar";
 
 const App: React.FC = () => {
   const { movies } = useTypedSelector((state) => state.data);
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <MovieDialog />
       <MyPicksDialog />
       <Notification />
+      <LoadBar />
     </Container>
   );
 };
